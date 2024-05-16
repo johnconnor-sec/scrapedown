@@ -5,3 +5,4 @@ This is one of my first solo projects and is completely free to anyone who think
 
 Just clone it and after installing the dependencies run `python3 main.py`. Watch it work.
 
+If you'd like to make this project better, please show me what you have made!
