@@ -3,7 +3,7 @@
 
 ## To install:
 
-`git clone https://github.com/newb-saibot/scrapedown`
+`git clone https://github.com/johnconnor-sec/scrapedown`
 
 `cd scrapedown`
 
