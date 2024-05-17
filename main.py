@@ -1,9 +1,11 @@
 import os
 import requests
+import html2text
 from bs4 import BeautifulSoup
 from urllib.parse import urlparse, urljoin, unquote
 import re
 from concurrent.futures import ThreadPoolExecutor, as_completed
+import time
 
 def is_valid_url(url):
     parsed = urlparse(url)
@@ -42,8 +44,14 @@ def extract_text(session, url):
             print(f"Failed to retrieve {url}")
             return ""
         soup = BeautifulSoup(response.content, 'html.parser')
-        text = str(soup)
-        return text
+        html_content = str(soup)
+        text_maker = html2text.HTML2Text()
+        text_maker.body_width = 0
+        markdown_text = text_maker.handle(html_content)
+        code_blocks = soup.find_all('code')
+        for code_block in code_blocks:
+            markdown_text = markdown_text.replace(str(code_block), f"```\n{code_block.get_text()}\n```")
+        return markdown_text
     except Exception as e:
         print(f"Error extracting text from {url}: {e}")
         return ""
@@ -66,32 +74,41 @@ def process_page(session, url, domain, base_dir, depth):
     save_text_to_markdown(url, text, base_dir)
     return (url, links, depth)
 
-def crawl_and_scrape(start_url, base_dir, max_depth=3, max_workers=20):
-    domain = get_domain(start_url)
-    visited = set()
-    to_visit = [(start_url, 0)]
+def crawl_and_scrape(start_url, base_dir, max_depth=3, max_workers=10):
+    try:
+        domain = get_domain(start_url)
+        visited = set()
+        to_visit = [(start_url, 0)]
+        
+        with ThreadPoolExecutor(max_workers=max_workers) as executor:
+            while to_visit:
+                futures = []
+                for current_url, depth in to_visit:
+                    if depth > max_depth or current_url in visited:
+                        continue
+                    visited.add(current_url)
+                    futures.append(executor.submit(process_page, requests.Session(), current_url, domain, base_dir, depth))
 
-    with ThreadPoolExecutor(max_workers=max_workers) as executor:
-        while to_visit:
-            futures = []
-            for current_url, depth in to_visit:
-                if depth > max_depth or current_url in visited:
-                    continue
-                visited.add(current_url)
-                futures.append(executor.submit(process_page, requests.Session(), current_url, domain, base_dir, depth))
+                to_visit = []
+                for future in as_completed(futures):
+                    try:
+                        url, links, depth = future.result()
+                        print(f"Visited: {url}")
+                        for link in links:
+                            if link not in visited:
+                                to_visit.append((link, depth + 1))
+                    except Exception as e:
+                        print(f"Error processing page: {e}")
+        print(f"Visited {len(visited)} pages.")
+        return visited
+    except KeyboardInterrupt:
+        print("Cancelling...", end="", flush=True)
+        time.sleep(1)
+        for _ in range(10):
+            print("\b \b", end="", flush=True)
+            time.sleep(0.1)
+        return visited
 
-            to_visit = []
-            for future in as_completed(futures):
-                try:
-                    url, links, depth = future.result()
-                    print(f"Visited: {url}")
-                    for link in links:
-                        if link not in visited:
-                            to_visit.append((link, depth + 1))
-                except Exception as e:
-                    print(f"Error processing page: {e}")
-    print(f"Visited {len(visited)} pages.")
-    return visited
 
 # Example usage:
 start_url = input("Enter the URL to start scraping: ")
