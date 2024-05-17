@@ -132,6 +132,16 @@ files = [
 ]
 
 [[package]]
+name = "html2text"
+version = "2024.2.26"
+description = "Turn HTML into equivalent Markdown-structured text."
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "html2text-2024.2.26.tar.gz", hash = "sha256:05f8e367d15aaabc96415376776cdd11afd5127a77fce6e36afc60c563ca2c32"},
+]
+
+[[package]]
 name = "idna"
 version = "3.7"
 description = "Internationalized Domain Names in Applications (IDNA)"
@@ -193,5 +203,5 @@ zstd = ["zstandard (>=0.18.0)"]
 
 [metadata]
 lock-version = "2.0"
-python-versions = ">=3.10.0,<3.12"
-content-hash = "38b73075bf6cd6bb3a8b58b8479a9297298f8b9aa4b0fbd500d86dbc8cbe8395"
+python-versions = "^3.10"
+content-hash = "9853fb3ae582eb0d9ce75aa9b549cc258628cb7d9bc4dbcb5b849915aab3f109"
