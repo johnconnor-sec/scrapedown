@@ -5,7 +5,7 @@
 
 `git clone https://github.com/newb-saibot/scrapedown`
 
-`cd /scrapedown`
+`cd scrapedown`
 
 `pip install poetry`
 
