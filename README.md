@@ -9,6 +9,8 @@
 
 `pip install poetry`
 
+`poetry shell`
+
 `poetry install`
 
 ### Run it with:
@@ -17,7 +19,7 @@
 
 The tool now includes links gathered from the site and a better output of the markdown text.
 
-This is one of my first solo projects and is completely free to anyone who thinks its cool. If anything I think it could work for finding interesting endpoints. 
+This is one of my first solo projects and is completely free to anyone who thinks its cool. If anything I think it could work for gathering data for LLMs, notetaking, or finding interesting endpoints. 
 
 Just clone it and after installing the dependencies run `python3 main.py`. Watch it work.
 
