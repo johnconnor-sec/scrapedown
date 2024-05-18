@@ -1,8 +1,8 @@
 # scrapedown
-## A website scraper tool for extracting text with conversion to markdown.md. Files are placed in a directory named after the directory they was found under. Creates a file structure that replicates the site's.
+#### A website scraper tool for extracting text with conversion to markdown.md. Files are placed in a directory named after the directory they was found under. Creates a file structure that replicates the site's.
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-** Use with caution **
+***Use with caution***
 
 ## To install:
 
