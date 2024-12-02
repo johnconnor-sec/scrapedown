@@ -5,7 +5,7 @@ description = ""
 authors = ["Your Name <you@example.com>"]
 
 [tool.poetry.dependencies]
-python = ">=3.10.0,<3.12"
+python = ">=3.10.0,<3.13"
 html2text = "^2024.2.26"
 pyfiglet = "^1.0.2"
 requests = "^2.31.0"
